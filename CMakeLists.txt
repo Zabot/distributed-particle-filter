@@ -13,3 +13,6 @@ add_custom_command(
 file(GLOB PROBABILITY_SOURCES "src/probability/*.c")
 add_library(probability ${PROBABILITY_SOURCES} ztable_data.c)
 
+file(GLOB UTILS_SOURCES "src/utils/*.c")
+add_library(utils ${UTILS_SOURCES})
+
