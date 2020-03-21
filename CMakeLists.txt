@@ -22,3 +22,6 @@ add_library(vector ${VECTOR_SOURCES})
 file(GLOB PARTICLE_FILTER_SOURCES "src/particle_filter/*.c")
 add_library(particle_filter ${PARTICLE_FILTER_SOURCES})
 
+file(GLOB TRILITERATION_SOURCES "src/triliteration/*.c")
+add_library(triliteration ${TRILITERATION_SOURCES})
+
