@@ -19,3 +19,6 @@ add_library(utils ${UTILS_SOURCES})
 file(GLOB VECTOR_SOURCES "src/vector/*.c")
 add_library(vector ${VECTOR_SOURCES})
 
+file(GLOB PARTICLE_FILTER_SOURCES "src/particle_filter/*.c")
+add_library(particle_filter ${PARTICLE_FILTER_SOURCES})
+
