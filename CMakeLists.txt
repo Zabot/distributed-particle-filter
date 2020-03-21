@@ -16,3 +16,6 @@ add_library(probability ${PROBABILITY_SOURCES} ztable_data.c)
 file(GLOB UTILS_SOURCES "src/utils/*.c")
 add_library(utils ${UTILS_SOURCES})
 
+file(GLOB VECTOR_SOURCES "src/vector/*.c")
+add_library(vector ${VECTOR_SOURCES})
+
