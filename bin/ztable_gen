@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+import numpy
+import scipy.integrate
+
+from argparse import FileType
+from argparse import ArgumentParser
+
+parser = ArgumentParser()
+parser.add_argument("-o", dest="outfile", default="ztable_data.c", help="output file name", type=FileType('w'))
+parser.add_argument("-c", dest="count", default=256, help="number of entries in the ztable", type=int)
+parser.add_argument("-n", "--min", dest="min", default=-4, help="minimum z score in the table", type=int)
+parser.add_argument("-x", "--max", dest="max", default=4, help="maximum z score in the table", type=int)
+
+args = parser.parse_args()
+
+def normalPDF(x):
+    c = 1.0 / numpy.sqrt(2 * numpy.pi)
+    return(c * numpy.exp((x*x) / -2.0) )
+
+def normalCDF(z):
+    return scipy.integrate.quad(normalPDF, numpy.NINF, z)[0]
+
+cdf = numpy.vectorize(normalCDF)
+samples = numpy.linspace(args.min, args.max, args.count)
+values = cdf(samples)
+
+lines = ['  ' + ', '.join(map(str, l)) for l in values.reshape((-1,4)).tolist()]
+table = ',\n'.join(lines)
+
+# ZTable metadata
+args.outfile.write("const float ZTABLE_MINIMUM = {};\n".format(args.min))
+args.outfile.write("const float ZTABLE_RANGE = {};\n".format(args.max - args.min))
+args.outfile.write("const int ZTABLE_SAMPLES = {};\n".format(args.count))
+args.outfile.write("\n")
+
+# ZTable data
+args.outfile.write("const float ztable[] = {\n")
+args.outfile.write(table + "\n")
+args.outfile.write("};\n")
+args.outfile.write("\n")
+
