@@ -31,3 +31,7 @@ file(GLOB VISUALIZATION_SOURCES "src/visualization/*.c")
 add_library(visualization ${VISUALIZATION_SOURCES})
 target_link_libraries(visualization vector)
 
+file(GLOB SINGLE_NODE_TEST_SOURCES "src/single_node_test/*.c")
+add_executable(single_node_test ${SINGLE_NODE_TEST_SOURCES})
+target_link_libraries(single_node_test SDL2 m probability utils vector visualization particle_filter triliteration visualization)
+
