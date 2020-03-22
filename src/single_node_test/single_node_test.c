@@ -111,6 +111,10 @@ int main(int argc, char *argv[]) {
             else if (event.key.keysym.sym == SDLK_q)
               done = 1;
           }
+
+          else if (event.type == SDL_MOUSEWHEEL) {
+              placeRadius += placeRadius * 0.05 * event.wheel.y;
+          }
         }
 
         // Update the filter

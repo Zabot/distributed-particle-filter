@@ -11,24 +11,24 @@ add_custom_command(
 )
 
 file(GLOB PROBABILITY_SOURCES "src/probability/*.c")
-add_library(probability ${PROBABILITY_SOURCES} ztable_data.c)
+add_library(probability SHARED ${PROBABILITY_SOURCES} ztable_data.c)
 
 file(GLOB UTILS_SOURCES "src/utils/*.c")
-add_library(utils ${UTILS_SOURCES})
+add_library(utils SHARED ${UTILS_SOURCES})
 
 file(GLOB VECTOR_SOURCES "src/vector/*.c")
-add_library(vector ${VECTOR_SOURCES})
+add_library(vector SHARED ${VECTOR_SOURCES})
 
 file(GLOB PARTICLE_FILTER_SOURCES "src/particle_filter/*.c")
-add_library(particle_filter ${PARTICLE_FILTER_SOURCES})
+add_library(particle_filter SHARED ${PARTICLE_FILTER_SOURCES})
 target_link_libraries(particle_filter utils vector)
 
 file(GLOB TRILITERATION_SOURCES "src/triliteration/*.c")
-add_library(triliteration ${TRILITERATION_SOURCES})
+add_library(triliteration SHARED ${TRILITERATION_SOURCES})
 target_link_libraries(triliteration probability vector)
 
 file(GLOB VISUALIZATION_SOURCES "src/visualization/*.c")
-add_library(visualization ${VISUALIZATION_SOURCES})
+add_library(visualization SHARED ${VISUALIZATION_SOURCES})
 target_link_libraries(visualization vector)
 
 file(GLOB SINGLE_NODE_TEST_SOURCES "src/single_node_test/*.c")
