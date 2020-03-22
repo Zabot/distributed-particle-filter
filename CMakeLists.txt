@@ -25,3 +25,6 @@ add_library(particle_filter ${PARTICLE_FILTER_SOURCES})
 file(GLOB TRILITERATION_SOURCES "src/triliteration/*.c")
 add_library(triliteration ${TRILITERATION_SOURCES})
 
+file(GLOB VISUALIZATION_SOURCES "src/visualization/*.c")
+add_library(visualization ${VISUALIZATION_SOURCES})
+
