@@ -39,9 +39,9 @@ int main(int argc, char *argv[]) {
   pf.min.x = -geometry.logicalWidth / 2;
   pf.min.y = -geometry.logicalHeight / 2;
   pf.min.z = 0;
-  pf.min.x = geometry.logicalWidth / 2;
-  pf.min.y = geometry.logicalHeight / 2;
-  pf.min.z = 0;
+  pf.max.x = geometry.logicalWidth / 2;
+  pf.max.y = geometry.logicalHeight / 2;
+  pf.max.z = 0;
   pf.evaluate = (ProbabilityFunction)(&triliterationProbability);
 
   initalizeParticleFilter(&pf, 3000);
