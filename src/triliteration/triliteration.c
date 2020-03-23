@@ -18,6 +18,8 @@ float distanceProb(const vector3f *position,
 float triliterationProbability(const vector3f *proposedPosition,
                                const TriliterationData* data)
 {
+  if (data->count == 0) return 0;
+
   float pTotal = 1;
   for (int i = 0; i < data->count; i++) {
     float p = distanceProb(proposedPosition,
