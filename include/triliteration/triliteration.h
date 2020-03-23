@@ -1,6 +1,7 @@
 #ifndef TRILITERATION_H
 #define TRILITERATION_H
 
+#include "triliteration/triliteration_data.h"
 #include "vector/vector3f.h"
 
 #define RANGE_SENSOR_DEVIATION 0.1
@@ -8,31 +9,16 @@
 
 
 /**
- * @struct TriliterationData
- * Groups data used by triliteration procedure
- * @var TriliterationData::count The number of measured anchors
- * @var TriliterationData::anchors The position of the measured anchors
- * @var TriliterationData::distances The distance measured to each anchor
- */
-typedef struct TriliterationData {
-  int count;
-  vector3f *anchors;
-  float *distances;
-} TriliterationData;
-
-/**
  * @brief What is the probability of measuring a distance to an anchor given
  * the actual position of both
  * @param position The actual position the measurment is taken from
- * @param anchor The actual position of the anchor
- * @param measured The measured distance to the anchor
+ * @param anchor The anchor to test against
  * @param tolerance The desired accuracy of the measurment
  * @return The probability of the measured value given the proposed actual\
  *         positions
  */
 float distanceProb(const vector3f *position,
-                   const vector3f *anchor,
-                   float measured,
+                   const TriliterationAnchor *anchor,
                    float tolerance);
 
 /**

@@ -27,12 +27,8 @@ int main(int argc, char *argv[]) {
   geometry.y = 500;
 
   // Setup triliteration data
-  vector3f nodes[10];
-  float distances[10];
   TriliterationData data;
-  data.anchors = nodes;
-  data.distances = distances;
-  data.count = 0;
+  initTriliterationData(&data);
 
   // Setup particle filter
   ParticleFilter pf;
@@ -78,18 +74,28 @@ int main(int argc, char *argv[]) {
             // Add a new triliteration anchor
             else if (event.key.keysym.sym == SDLK_a)
             {
-              nodes[data.count] = logicalMouse;
-              distances[data.count] = placeRadius;
-              data.count++;
+              TriliterationAnchor anchor;
+              anchor.position = logicalMouse;
+              anchor.distance = placeRadius;
+              int key = (int)logicalMouse.x * 30 + (int)logicalMouse.y + 1;
+              printf("Adding %d\n", key);
+              addTriliterationAnchor(&data, key, &anchor);
 
               vector3f seedPoints[256];
               sampleUniformCircle(seedPoints, 256, &logicalMouse, placeRadius);
               seedParticleFilter(&pf, seedPoints, 256);
             }
 
+            else if (event.key.keysym.sym == SDLK_d)
+            {
+              int key = (int)logicalMouse.x * 30 + (int)logicalMouse.y + 1;
+              printf("Deleting %d\n", key);
+              removeTriliterationAnchor(&data, key);
+            }
+
             // Delete all triliteration anchors
             else if (event.key.keysym.sym == SDLK_c)
-              data.count = 0;
+              initTriliterationData(&data);
 
             // Reset the particle filter
             else if (event.key.keysym.sym == SDLK_r)

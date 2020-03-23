@@ -4,14 +4,13 @@
 
 
 float distanceProb(const vector3f *position,
-                   const vector3f *target,
-                   float measured,
+                   const TriliterationAnchor *anchor,
                    float tolerance)
 {
-  const vector3f r = difference(position, target);
+  const vector3f r = difference(position, &anchor->position);
   float d = norm(&r);
 
-  float p = ztestBounded(d, RANGE_SENSOR_DEVIATION, measured, tolerance);
+  float p = ztestBounded(d, RANGE_SENSOR_DEVIATION, anchor->distance, tolerance);
   return p;
 }
 
@@ -22,8 +21,7 @@ float triliterationProbability(const vector3f *proposedPosition,
   float pTotal = 1;
   for (int i = 0; i < data->count; i++) {
     float p = distanceProb(proposedPosition,
-                           data->anchors + i,
-                           data->distances[i],
+                           getTriliterationAnchorIndex(data, i),
                            RANGE_SENSOR_TOLERANCE);
     pTotal *= p;
   }
