@@ -133,8 +133,12 @@ int main(int argc, char *argv[]) {
 
         // Draw debugging information
         drawAxes(renderer, &geometry);
-        drawTriliterationData(renderer, &geometry, &data);
-        drawParticleFilter(renderer, &geometry, &pf);
+        vector3f color;
+        color.x = 1;
+        color.y = 0;
+        color.z = 1;
+        drawTriliterationData(renderer, &geometry, &data, &color);
+        drawParticleFilter(renderer, &geometry, &pf, &color);
 
         // Draw ui information
         drawLogicalCircle(renderer, &geometry, &logicalMouse, placeRadius);

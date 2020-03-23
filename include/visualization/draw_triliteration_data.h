@@ -11,10 +11,12 @@
  * @param renderer The renderer to display on
  * @param geometry The screen geometry to use for transformations
  * @param data The TriliterationData to display
+ * @param color The base color to use. Components should be normalized 0 to 1
  */
 void drawTriliterationData(SDL_Renderer* renderer,
                            const LogicalScreenGeometry* geometry,
-                           const TriliterationData* data);
+                           const TriliterationData* data,
+                           const vector3f* color);
 
 #endif
 

@@ -6,8 +6,14 @@
 
 void drawTriliterationData(SDL_Renderer* renderer,
                            const LogicalScreenGeometry* geometry,
-                           const TriliterationData* data) {
-  SDL_SetRenderDrawColor(renderer, 100, 100, 100, SDL_ALPHA_OPAQUE);
+                           const TriliterationData* data,
+                           const vector3f* color) {
+
+  SDL_SetRenderDrawColor(renderer,
+                         color->x * 255,
+                         color->y * 255,
+                         color->z * 255,
+                         SDL_ALPHA_OPAQUE);
 
   for (int i = 0; i < data->count; i++)
   {
