@@ -25,6 +25,9 @@ int initalizeVisualizationWindow(VisualizationWindow* window,
     windowCount++;
     window->initalized = 1;
     SDL_SetWindowTitle(window->window, title);
+
+    clearVisualizationWindow(window);
+    renderVisualizationWindow(window);
   }
 
   return status;
@@ -41,5 +44,16 @@ void destroyVisualizationWindow(VisualizationWindow* window) {
   windowCount--;
   if (windowCount == 0)
     SDL_Quit();
+}
+
+
+void renderVisualizationWindow(VisualizationWindow* window) {
+    SDL_RenderPresent(window->renderer);
+}
+
+
+void clearVisualizationWindow(VisualizationWindow* window) {
+    SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(window->renderer);
 }
 

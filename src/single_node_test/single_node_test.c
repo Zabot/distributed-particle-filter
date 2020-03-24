@@ -125,8 +125,7 @@ int main(int argc, char *argv[]) {
         updateParticleFilter(&pf, &data);
 
       // Black out the window
-      SDL_SetRenderDrawColor(window.renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-      SDL_RenderClear(window.renderer);
+      clearVisualizationWindow(&window);
 
       // Draw debugging information
       drawAxes(window.renderer, &window.geometry);
@@ -147,7 +146,7 @@ int main(int argc, char *argv[]) {
                         placeRadius);
 
       // Display the window
-      SDL_RenderPresent(window.renderer);
+      renderVisualizationWindow(&window);
       SDL_Delay(10);
     }
   }

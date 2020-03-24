@@ -30,5 +30,17 @@ int initalizeVisualizationWindow(VisualizationWindow* window,
  */
 void destroyVisualizationWindow(VisualizationWindow* window);
 
+/**
+ * @brief Render the VisualizationWindow
+ * @param window The window to render
+ */
+void renderVisualizationWindow(VisualizationWindow* window);
+
+/**
+ * @brief Clear the VisualizationWindow
+ * @param window The window to clear
+ */
+void clearVisualizationWindow(VisualizationWindow* window);
+
 #endif
 
