@@ -9,7 +9,8 @@
 void multinomialResample(vector3f* samples,
                          float* probabilities,
                          int count,
-                         int targetCount) {
+                         vector3f* outputSamples,
+                         int outputCount) {
   // Calculate cumulative probability distribution
   float cumulative = 0;
   for (int i = 0; i < count; i++)
@@ -24,8 +25,7 @@ void multinomialResample(vector3f* samples,
   }
 
   // Take new samples
-  vector3f* newSamples = malloc(targetCount * sizeof(vector3f));
-  for (int i = 0; i < targetCount; i++)
+  for (int i = 0; i < outputCount; i++)
   {
     float x = randomf(0, threshold[count - 1], 1000);
 
@@ -33,14 +33,35 @@ void multinomialResample(vector3f* samples,
     while (x >= threshold[t])
       t++;
 
-    newSamples[i] = samples[t];
+    outputSamples[i] = samples[t];
   }
 
-  for (int i = 0; i < targetCount; i++)
-    samples[i] = newSamples[i];
+  for (int i = 0; i < outputCount; i++)
+    samples[i] = outputSamples[i];
 
-  free(newSamples);
   free(threshold);
+}
+
+
+void evaluateProbabilities(ParticleFilter *filter, const void* data) {
+  // Update the belief confidence with the most up to date data
+  filter->confidence = filter->evaluate(&filter->belief, data);
+
+  // Update the confidence of every estimate and find the most confident
+  // estimate to use as the current belief
+  int beliefIndex = -1;
+  for (int i = 0; i < filter->sampleCount; i++) {
+    float p = filter->evaluate(filter->samples + i, data);
+    filter->probabilities[i] = p;
+
+    if (p > filter->confidence) {
+      beliefIndex = i;
+      filter->confidence = p;
+    }
+  }
+
+  if (beliefIndex >= 0)
+    filter->belief = filter->samples[beliefIndex];
 }
 
 
@@ -55,39 +76,24 @@ void updateParticleFilter(ParticleFilter *filter, const void* data) {
     add(filter->samples + i, &disturbance);
   }
 
-  // Update the confidence of every estimate and find the most confident
-  // estimate to use as the current belief
-  int beliefIndex = 0;
-  float confidence = 0;
-  for (int i = 0; i < filter->sampleCount; i++) {
-    float p = filter->evaluate(filter->samples + i, data);
-    filter->probabilities[i] = p;
-
-    // If this belief if 5% more confident the the best, use it
-    if (p > confidence + 0.05) {
-      beliefIndex = i;
-      confidence = p;
-
-    } else if (p > confidence - 0.5) {
-      // If the this belief is as confident as the current best, use it only
-      // if its closer
-      if (distance(filter->samples + i, &filter->belief)
-          < distance(filter->samples + beliefIndex, &filter->belief)) {
-        beliefIndex = i;
-        confidence = p;
-      }
-    }
-  }
-
-  filter->belief = filter->samples[beliefIndex];
-  filter->confidence = confidence;
+  evaluateProbabilities(filter, data);
 
   // Resample
+  vector3f* newSamples = malloc(filter->targetSampleCount * sizeof(vector3f));
+  newSamples[0] = filter->belief;
+
   multinomialResample(filter->samples,
                       filter->probabilities,
                       filter->sampleCount,
-                      filter->targetSampleCount);
+                      newSamples + 1,
+                      filter->targetSampleCount - 1);
   filter->sampleCount = filter->targetSampleCount;
+
+  for (int i = 0; i < filter->targetSampleCount; i++)
+    filter->samples[i] = newSamples[i];
+  filter->sampleCount = filter->targetSampleCount;
+
+  free(newSamples);
 }
 
 
