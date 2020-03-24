@@ -41,3 +41,7 @@ add_library(simulation ${SIMULATION_SOURCES})
 set_property(TARGET simulation PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(simulation vector)
 
+file(GLOB MICROCONTROLLER_SOURCES "src/microcontroller/*.c")
+add_library(microcontroller SHARED ${MICROCONTROLLER_SOURCES})
+target_link_libraries(microcontroller simulation particle_filter triliteration utils)
+
