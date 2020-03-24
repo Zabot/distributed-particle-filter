@@ -45,3 +45,6 @@ file(GLOB MICROCONTROLLER_SOURCES "src/microcontroller/*.c")
 add_library(microcontroller SHARED ${MICROCONTROLLER_SOURCES})
 target_link_libraries(microcontroller simulation particle_filter triliteration utils)
 
+file(GLOB SIMULATOR_SOURCES "scripts/*.py")
+file(COPY ${SIMULATOR_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
