@@ -36,3 +36,8 @@ file(GLOB SINGLE_NODE_TEST_SOURCES "src/single_node_test/*.c")
 add_executable(single_node_test ${SINGLE_NODE_TEST_SOURCES})
 target_link_libraries(single_node_test SDL2 m probability utils vector visualization particle_filter triliteration visualization)
 
+file(GLOB SIMULATION_SOURCES "src/simulate/*.c")
+add_library(simulation ${SIMULATION_SOURCES})
+set_property(TARGET simulation PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(simulation vector)
+
