@@ -25,7 +25,7 @@ void drawTriliterationData(SDL_Renderer* renderer,
 
     char id[10];
     sprintf(id, "%d (%.2f)", data->anchors[i].key, data->anchors[i].anchor.confidence);
-    drawText(renderer, geometry, &anchor->position, id, 0);
+    drawLogicalText(renderer, geometry, &anchor->position, id, 0);
   }
 }
 

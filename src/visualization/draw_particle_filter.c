@@ -27,6 +27,6 @@ void drawParticleFilter(SDL_Renderer* renderer,
 
   char id[4];
   sprintf(id, "%0.2f", pf->confidence);
-  drawText(renderer, geometry, &pf->belief, id, 1);
+  drawLogicalText(renderer, geometry, &pf->belief, id, 1);
 }
 

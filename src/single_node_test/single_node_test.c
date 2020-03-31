@@ -157,11 +157,11 @@ int main(int argc, char *argv[]) {
 
       char buffer[32];
       sprintf(buffer, "%.2f", confidence);
-      drawText(window.renderer,
-               &window.geometry,
-               &logicalMouse,
-               buffer,
-               1);
+      drawLogicalText(window.renderer,
+                      &window.geometry,
+                      &logicalMouse,
+                      buffer,
+                      1);
 
       // Display the window
       renderVisualizationWindow(&window);
