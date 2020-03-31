@@ -1,9 +1,9 @@
 import numpy
 import shutil
 
-from ctypes import cdll, c_void_p, POINTER
+from ctypes import cdll, c_void_p, POINTER, c_int
 
-from library_types import Message
+from library_types import Message, vector3f
 
 class SwarmNode:
     def __init__(self, nodeID, range = 10):
@@ -58,4 +58,10 @@ class SwarmNode:
 
     def get_triliteration_data(self):
         return c_void_p.in_dll(self.libmicrocontroller, 'dataPointer')
+
+    def get_cluster(self):
+        return c_int.in_dll(self.libmicrocontroller, 'clusterID')
+
+    def get_belief(self):
+        return POINTER(vector3f).in_dll(self.libmicrocontroller, 'beliefPointer')[0]
 

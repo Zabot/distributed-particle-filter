@@ -12,6 +12,7 @@ ParticleFilter pf;
 
 const TriliterationData* dataPointer = &data;
 const ParticleFilter* pfPointer = &pf;
+const vector3f* beliefPointer = &pf.belief;
 
 const int UNPROMPTED_INTERVAL = 100;
 int timeSinceLastBroadcast;
