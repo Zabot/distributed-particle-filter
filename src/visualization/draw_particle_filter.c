@@ -24,5 +24,9 @@ void drawParticleFilter(SDL_Renderer* renderer,
                          color->z * 255,
                          SDL_ALPHA_OPAQUE);
   drawLogicalCircle(renderer, geometry, &pf->belief, 0.1);
+
+  char id[4];
+  sprintf(id, "%0.2f", pf->confidence);
+  drawText(renderer, geometry, &pf->belief, id, 1);
 }
 
