@@ -11,6 +11,7 @@ class LocalizationPayload(Structure):
     _fields_ = [
             ('location', vector3f),
             ('confidence', c_float),
+            ('clusterID', c_int),
         ]
 
 class MessagePayload(Union):

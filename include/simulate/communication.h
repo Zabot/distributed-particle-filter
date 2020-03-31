@@ -11,6 +11,7 @@
 typedef struct LocalizationPayload {
   vector3f location;
   float confidence;
+  int clusterID;
 } LocalizationPayload;
 
 typedef union MessagePayload {
