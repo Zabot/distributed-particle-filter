@@ -2,8 +2,9 @@
 
 #include <stdlib.h>
 
-float randomf(float min, float max, float res) {
-  float r = rand() % (int)((max - min) * res);
-  return min + (r / res);
+float randomf(float min, float max) {
+  float range = max - min;
+  float r = (float)rand()/(float)(RAND_MAX/range);
+  return min + r;
 }
 

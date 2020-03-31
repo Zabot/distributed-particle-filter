@@ -12,10 +12,10 @@ void zero(vector3f *p) {
   p->z = 0;
 }
 
-void randomize(vector3f *p, float min, float max, float res) {
-  p->x = randomf(min, max, res);
-  p->y = randomf(min, max, res);
-  p->z = randomf(min, max, res);
+void randomize(vector3f *p, float min, float max) {
+  p->x = randomf(min, max);
+  p->y = randomf(min, max);
+  p->z = randomf(min, max);
 }
 
 void assign(vector3f *v, const vector3f *u) {

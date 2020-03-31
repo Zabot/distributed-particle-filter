@@ -8,7 +8,7 @@
  * @param res The number of possible values between each integer step
  * @return A random float
  */
-float randomf(float min, float max, float res);
+float randomf(float min, float max);
 
 #endif
 

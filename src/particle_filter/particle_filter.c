@@ -27,7 +27,7 @@ void multinomialResample(vector3f* samples,
   // Take new samples
   for (int i = 0; i < outputCount; i++)
   {
-    float x = randomf(0, threshold[count - 1], 1000);
+    float x = randomf(0, threshold[count - 1]);
 
     int t = 0;
     while (x >= threshold[t])
@@ -71,7 +71,7 @@ void updateParticleFilter(ParticleFilter *filter, const void* data) {
   // estimated movement)
   vector3f disturbance;
   for (int i = 0; i < filter->sampleCount; i++) {
-    randomize(&disturbance, -0.5, 0.5, 500);
+    randomize(&disturbance, -1, 1);
     disturbance.z = 0;
     add(filter->samples + i, &disturbance);
   }
@@ -101,7 +101,7 @@ void initalizeParticleFilter(ParticleFilter *filter, int count) {
   filter->targetSampleCount = count;
   filter->sampleCount = count;
   for (int i = 0; i < count; i++) {
-    randomize(filter->samples + i, -10, 10, 100);
+    randomize(filter->samples + i, -10, 10);
     filter->samples[i].z = 0;
   }
 

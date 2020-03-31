@@ -21,7 +21,7 @@ void zero(vector3f *v);
  * @param max The maximum value of any component
  * @param res The number of possible values between two integer steps
  */
-void randomize(vector3f *v, float min, float max, float res);
+void randomize(vector3f *v, float min, float max);
 
 /**
  * @brief Initalizes all components of a vector using corresponding components
