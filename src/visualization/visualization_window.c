@@ -64,3 +64,12 @@ void clearVisualizationWindow(VisualizationWindow* window) {
     SDL_RenderClear(window->renderer);
 }
 
+
+void setColor(VisualizationWindow* window, const vector3f* color) {
+  int i = SDL_SetRenderDrawColor(window->renderer,
+                         color->x * 255,
+                         color->y * 255,
+                         color->z * 255,
+                         SDL_ALPHA_OPAQUE);
+}
+

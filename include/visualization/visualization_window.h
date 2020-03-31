@@ -42,5 +42,13 @@ void renderVisualizationWindow(VisualizationWindow* window);
  */
 void clearVisualizationWindow(VisualizationWindow* window);
 
+
+/**
+ * @brief Set the drawing color on a window
+ * @param window The window to change
+ * @param color The new color, each component in [0, 1]
+ */
+void setColor(VisualizationWindow* window, const vector3f* color);
+
 #endif
 
