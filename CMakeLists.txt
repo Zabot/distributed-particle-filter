@@ -30,7 +30,7 @@ target_link_libraries(triliteration probability vector)
 
 file(GLOB VISUALIZATION_SOURCES "src/visualization/*.c")
 add_library(visualization SHARED ${VISUALIZATION_SOURCES})
-target_link_libraries(visualization vector SDL2 particle_filter triliteration)
+target_link_libraries(visualization vector SDL2 SDL2_ttf particle_filter triliteration)
 
 file(GLOB SINGLE_NODE_TEST_SOURCES "src/single_node_test/*.c")
 add_executable(single_node_test ${SINGLE_NODE_TEST_SOURCES})

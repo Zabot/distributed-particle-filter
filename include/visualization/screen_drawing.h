@@ -17,5 +17,17 @@ void drawEllipse(SDL_Renderer* renderer,
                  int height,
                  int filled);
 
+/**
+ * @brief Draw text to the screen
+ * @param renderer The renderer to draw own
+ * @param anchor The top left coordinate of the text
+ * @param text The text to draw
+ * @param line The number of verical lines to offset the text
+ */
+void drawText(SDL_Renderer* renderer,
+              const SDL_Point* anchor,
+              const char* text,
+              int line);
+
 #endif
 

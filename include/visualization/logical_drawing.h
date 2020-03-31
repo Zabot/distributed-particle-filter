@@ -34,5 +34,19 @@ void drawLogicalCircle(SDL_Renderer* renderer,
                        const vector3f* center,
                        float radius);
 
+/**
+ * @brief Draw text to the screen at a logical position
+ * @param renderer The renderer to draw own
+ * @param geometry The screen geometry to use for transformations
+ * @param anchor The top left coordinate of the text
+ * @param text The text to draw
+ * @param line The number of verical lines to offset the text
+ */
+void drawLogicalText(SDL_Renderer* renderer,
+                     const LogicalScreenGeometry* geometry,
+                     const vector3f* anchor,
+                     const char* text,
+                     int line);
+
 #endif
 

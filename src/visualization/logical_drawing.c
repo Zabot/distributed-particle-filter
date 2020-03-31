@@ -51,3 +51,16 @@ void drawLogicalCircle(SDL_Renderer* renderer,
   drawEllipse(renderer, c, sr.x * 2, sr.y * 2, 0);
 }
 
+
+void drawLogicalText(SDL_Renderer* renderer,
+                     const LogicalScreenGeometry* geometry,
+                     const vector3f* anchor,
+                     const char* text,
+                     int line)
+{
+  SDL_Point a;
+  toScreen(geometry, anchor, &a);
+
+  drawText(renderer, &a, text, line);
+}
+

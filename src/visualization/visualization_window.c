@@ -1,6 +1,7 @@
 #include "visualization/visualization_window.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 int windowCount = 0;
 
@@ -9,7 +10,10 @@ int initalizeVisualizationWindow(VisualizationWindow* window,
   // Initalize the video subsystem if it hasn't been yet
   int status = 0;
   if (windowCount == 0)
+  {
     status = SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init();
+  }
 
   if (status != 0)
     return status;
@@ -43,7 +47,10 @@ void destroyVisualizationWindow(VisualizationWindow* window) {
 
   windowCount--;
   if (windowCount == 0)
+  {
     SDL_Quit();
+    TTF_Quit();
+  }
 }
 
 
