@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
   initalizeParticleFilter(&pf, 3000);
 
   // Start SDL
+  float confidence = 1;
   int autostep = 0;
   float placeRadius = 1;
 
@@ -74,6 +75,7 @@ int main(int argc, char *argv[]) {
             TriliterationAnchor anchor;
             anchor.position = logicalMouse;
             anchor.distance = placeRadius;
+            anchor.confidence = confidence;
             int key = (int)logicalMouse.x * 30 + (int)logicalMouse.y + 1;
             printf("Adding %d\n", key);
             addTriliterationAnchor(&data, key, &anchor);
@@ -110,6 +112,14 @@ int main(int argc, char *argv[]) {
           else if (event.key.keysym.sym == SDLK_MINUS)
             placeRadius -= placeRadius * 0.15;
 
+          // Lower confidence
+          else if (event.key.keysym.sym == SDLK_COMMA)
+            confidence -= 0.05;
+
+          // Raise confidence
+          else if (event.key.keysym.sym == SDLK_PERIOD)
+            confidence += 0.05;
+
           // Quit
           else if (event.key.keysym.sym == SDLK_q)
             running = 0;
@@ -144,6 +154,14 @@ int main(int argc, char *argv[]) {
                         &window.geometry,
                         &logicalMouse,
                         placeRadius);
+
+      char buffer[32];
+      sprintf(buffer, "%.2f", confidence);
+      drawText(window.renderer,
+               &window.geometry,
+               &logicalMouse,
+               buffer,
+               1);
 
       // Display the window
       renderVisualizationWindow(&window);

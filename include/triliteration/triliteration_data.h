@@ -9,6 +9,7 @@
 typedef struct TriliterationAnchor {
   vector3f position;
   float distance;
+  float confidence;
 } TriliterationAnchor;
 
 typedef struct TriliterationDataEntry {
