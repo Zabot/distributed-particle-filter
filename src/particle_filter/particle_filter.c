@@ -44,24 +44,35 @@ void multinomialResample(vector3f* samples,
 
 
 void evaluateProbabilities(ParticleFilter *filter, const void* data) {
-  // Update the belief confidence with the most up to date data
-  filter->confidence = filter->evaluate(&filter->belief, data);
+  // Get the current belief probability
+  int beliefIndex = -1;
+  float beliefProbability = filter->evaluate(&filter->belief, data);
 
   // Update the confidence of every estimate and find the most confident
   // estimate to use as the current belief
-  int beliefIndex = -1;
   for (int i = 0; i < filter->sampleCount; i++) {
     float p = filter->evaluate(filter->samples + i, data);
     filter->probabilities[i] = p;
 
-    if (p > filter->confidence) {
+    if (p > beliefProbability) {
       beliefIndex = i;
-      filter->confidence = p;
+      beliefProbability = p;
     }
   }
 
   if (beliefIndex >= 0)
     filter->belief = filter->samples[beliefIndex];
+
+  // Calculate belief confidence
+  float pTot = 0;
+  float p = 0;
+  for (int i = 0; i < filter->sampleCount; i++)
+  {
+    pTot += filter->probabilities[i];
+    if (distance(filter->samples + i, &filter->belief) < 0.10)
+      p += filter->probabilities[i];
+  }
+  filter->confidence = pTot == 0.0 ? 0.0 : p / pTot;
 }
 
 
@@ -103,9 +114,11 @@ void initalizeParticleFilter(ParticleFilter *filter, int count) {
   for (int i = 0; i < count; i++) {
     randomize(filter->samples + i, -10, 10);
     filter->samples[i].z = 0;
+    filter->probabilities[i] = 1.0 / count;
   }
 
-  filter->confidence = 0;
+  filter->confidence = filter->probabilities[0];
+  filter->belief = filter->samples[0];
 }
 
 
