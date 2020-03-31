@@ -6,10 +6,11 @@ from ctypes import cdll, c_void_p, POINTER
 from library_types import Message
 
 class SwarmNode:
-    def __init__(self, nodeID):
+    def __init__(self, nodeID, range = 10):
         self.position = numpy.zeros(3)
         self.velocity = numpy.zeros(3)
         self.nodeId = nodeID
+        self.range = range
 
         # We have to copy the library into a tempfile to force it to be reloaded
         # as a new instance by dlopen since there is global state for each node
@@ -39,7 +40,7 @@ class SwarmNode:
         for m in tx_queue:
             for n in nodes:
                 d = numpy.linalg.norm(n.position - self.position)
-                if d < 10:
+                if d < self.range:
                     if n is self:
                         continue
 
