@@ -102,13 +102,12 @@ void updateParticleFilter(ParticleFilter *filter, const void* data) {
 
   // Resample
   vector3f* newSamples = malloc(filter->targetSampleCount * sizeof(vector3f));
-  newSamples[0] = filter->belief;
 
   multinomialResample(filter->samples,
                       filter->probabilities,
                       filter->sampleCount,
-                      newSamples + 1,
-                      filter->targetSampleCount - 1);
+                      newSamples,
+                      filter->targetSampleCount);
   filter->sampleCount = filter->targetSampleCount;
 
   for (int i = 0; i < filter->targetSampleCount; i++)
