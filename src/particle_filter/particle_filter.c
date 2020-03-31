@@ -16,16 +16,27 @@ void multinomialResample(vector3f* samples,
   for (int i = 0; i < count; i++)
     cumulative += probabilities[i];
 
+  int selectedSamples = 0;
+
   // Determine region for a sample
   float* threshold = malloc(count * sizeof(float));
   for (int i = 0; i < count; i++)
   {
     float normalized = probabilities[i] / cumulative;
+    const float expected = normalized * outputCount;
+
+    // Lower bound on number of samples is expected value
+    int copies = expected;
+    for (int k = 0; k < copies; k++)
+      outputSamples[selectedSamples + k] = samples[i];
+    selectedSamples += copies;
+
+    normalized -= expected - copies;
     threshold[i] = ((i == 0) ? 0 : threshold[i-1]) + normalized;
   }
 
   // Take new samples
-  for (int i = 0; i < outputCount; i++)
+  for (int i = selectedSamples; i < outputCount; i++)
   {
     float x = randomf(0, threshold[count - 1]);
 
