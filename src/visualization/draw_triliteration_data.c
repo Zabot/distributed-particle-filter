@@ -22,6 +22,10 @@ void drawTriliterationData(SDL_Renderer* renderer,
                       geometry,
                       &anchor->position,
                       anchor->distance);
+
+    char id[10];
+    sprintf(id, "%d (%.2f)", data->anchors[i].key, data->anchors[i].anchor.confidence);
+    drawText(renderer, geometry, &anchor->position, id, 0);
   }
 }
 
