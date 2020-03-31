@@ -23,6 +23,7 @@ class Message(Structure):
      _fields_ = [
              ("sender", c_int),
              ("range", c_float),
+             ("type", c_int),
              ("payload", MessagePayload),
          ]
 
