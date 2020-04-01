@@ -18,11 +18,11 @@ add_library(utils SHARED ${UTILS_SOURCES})
 
 file(GLOB VECTOR_SOURCES "src/vector/*.c")
 add_library(vector SHARED ${VECTOR_SOURCES})
-target_link_libraries(vector utils)
+target_link_libraries(vector probability)
 
 file(GLOB PARTICLE_FILTER_SOURCES "src/particle_filter/*.c")
 add_library(particle_filter SHARED ${PARTICLE_FILTER_SOURCES})
-target_link_libraries(particle_filter utils vector)
+target_link_libraries(particle_filter probability vector)
 
 file(GLOB TRILITERATION_SOURCES "src/triliteration/*.c")
 add_library(triliteration SHARED ${TRILITERATION_SOURCES})
