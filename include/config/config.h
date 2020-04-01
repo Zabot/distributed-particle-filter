@@ -33,5 +33,8 @@
 // Maximum number of neighbors
 #define MAX_TRILITERATION_ANCHORS 30
 
+// Minimum confidence needed to join a cluster
+#define CLUSTER_JOIN_CONFIDENCE 0.80
+
 #endif
 

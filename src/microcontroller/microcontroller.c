@@ -76,7 +76,8 @@ void loop() {
       const vector3f* p = &m.payload.localization.location;
 
       // If we recieve data from a higher prioirty cluster, use it
-      if (m.payload.localization.clusterID < clusterID) {
+      if (m.payload.localization.clusterID != clusterID
+          && m.payload.localization.confidence > CLUSTER_JOIN_CONFIDENCE) {
         // Dump old neighbors, they are in a different cluster now
         data.count = 0;
 
