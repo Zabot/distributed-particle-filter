@@ -4,7 +4,7 @@ import random
 from argparse import ArgumentParser
 from argparse import FileType
 
-from nodefile import parse
+from nodefile import parse, dump
 from simulation import Simulation
 from swarm_node import SwarmNode
 from visualization import Window
@@ -92,6 +92,8 @@ with Window("Composite", 1000, 1000, 30) as composite:
                     composite.drawAxes()
 
                 composite.drawNode(n, args.triliteration)
+            if command == 's':
+                dump("saved.yaml", nodes)
 
             composite.render()
 

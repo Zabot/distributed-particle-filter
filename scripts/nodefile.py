@@ -16,3 +16,14 @@ def parse(f):
 
     return nodes
 
+def dump(f, nodes):
+    data = {'nodes': [], 'range': nodes[0].range}
+    for n in nodes:
+        data['nodes'].append({
+            'x': float(n.position[0]),
+            'y': float(n.position[1]),
+            'z': float(n.position[2])})
+
+    with open(f, 'w') as outfile:
+        s = yaml.dump(data, outfile)
+
