@@ -1,16 +1,19 @@
 import numpy
 import shutil
 
-from ctypes import cdll, c_void_p, POINTER, c_int
+from ctypes import cdll, c_void_p, POINTER, c_int, pointer
 
 from library_types import Message, vector3f
 
 class SwarmNode:
-    def __init__(self, nodeID, range = 10):
+    def __init__(self, nodeID, range = 10, position_interval = 0):
         self.position = numpy.zeros(3)
         self.velocity = numpy.zeros(3)
         self.nodeId = nodeID
         self.range = range
+
+        self.position_interval = position_interval
+        self.since_position = position_interval
 
         # We have to copy the library into a tempfile to force it to be reloaded
         # as a new instance by dlopen since there is global state for each node
@@ -30,7 +33,17 @@ class SwarmNode:
 
 
     def update(self, nodes):
+
+        # Send a new position update at a regular interval
+        self.since_position += 1
+        if self.position_interval and self.since_position >= self.position_interval:
+            pos = vector3f(*self.position)
+            self.libmicrocontroller.set_position(pointer(pos))
+            self.since_position = 0
+
         self.libmicrocontroller.loop()
+
+        self.libmicrocontroller.clear_position();
 
         tx_count = self.libmicrocontroller.get_tx_queue_length()
         tx_pointer = self.libmicrocontroller.get_tx_queue()

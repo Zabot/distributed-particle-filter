@@ -8,6 +8,7 @@
 #include "triliteration/triliteration.h"
 
 #include "simulate/communication.h"
+#include "simulate/sensors.h"
 
 TriliterationData data;
 ParticleFilter pf;
@@ -75,9 +76,12 @@ void loop() {
     if (m.type == LOCALIZATION_MSG) {
       const vector3f* p = &m.payload.localization.location;
 
-      // If we recieve data from a higher prioirty cluster, use it
+      // If we recieve data from a a cluster that is more confidence then our
+      // estimate, use it (Or if we are a cluster master, use it regardless)
       if (m.payload.localization.clusterID != clusterID
-          && m.payload.localization.confidence >= CLUSTER_JOIN_CONFIDENCE) {
+          && m.payload.localization.confidence >= CLUSTER_JOIN_CONFIDENCE
+          && (m.payload.localization.confidence > pf.confidence
+              || clusterID == nodeID)) {
         // Dump old neighbors, they are in a different cluster now
         data.count = 0;
 
@@ -135,6 +139,12 @@ void loop() {
   // Nodes that are the master of a cluster are always right
   if (nodeID == clusterID && data.count > CLUSTER_BOOTSTRAPPING_COUNT)
     pf.confidence = CLUSTER_JOIN_CONFIDENCE;
+
+  vector3f sensedPosition;
+  if (sensePosition(&sensedPosition)) {
+    pf.confidence = 1;
+    pf.belief = sensedPosition;
+  }
 
   // Display localization summary
   NODE_PRINT("Localization Belief: [%.2f; %.2f; %.2f](%d) {",

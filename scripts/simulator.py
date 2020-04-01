@@ -30,6 +30,11 @@ parser.add_argument("-t",
                     dest="triliteration",
                     action="store_true",
                     help="Display triliteration rings")
+parser.add_argument("-p",
+                    dest="position_count",
+                    default=0,
+                    help="number of randomly selected position aware nodes",
+                    type=int)
 args = parser.parse_args()
 
 # Load a nodefile from arguments
@@ -42,6 +47,9 @@ else:
     for n in nodes:
         n.position = numpy.random.uniform(-10, 10, 3)
         n.position[2] = 0
+
+    for n in random.sample(nodes, args.position_count):
+        n.position_interval = 1
 
 # Run the simulation
 sim = Simulation(nodes)
