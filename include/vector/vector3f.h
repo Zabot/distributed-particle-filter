@@ -24,6 +24,12 @@ void zero(vector3f *v);
 void randomize(vector3f *v, float min, float max);
 
 /**
+ * @brief Generates a uniformly distributed random unit vector.
+ * @param v The generated vector
+ */
+void randomUnit(vector3f *v);
+
+/**
  * @brief Initalizes all components of a vector using corresponding components
  * in another vector.
  * @param target The vector to update

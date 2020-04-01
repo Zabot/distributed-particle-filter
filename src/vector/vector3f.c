@@ -18,6 +18,15 @@ void randomize(vector3f *p, float min, float max) {
   p->z = uniform(min, max);
 }
 
+void randomUnit(vector3f *v) {
+  v->x = gaussian();
+  v->y = gaussian();
+  v->z = gaussian();
+
+  float d = norm(v);
+  scale(v, 1/d);
+}
+
 void assign(vector3f *v, const vector3f *u) {
   v->x = u->x;
   v->y = u->y;
