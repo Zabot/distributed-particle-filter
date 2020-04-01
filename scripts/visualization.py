@@ -89,6 +89,13 @@ class Window(object):
                                       data_pointer,
                                       pointer(color))
 
+        p = node.get_belief()
+        vis.drawLogicalText(self.window.renderer,
+                            pointer(self.window.geometry),
+                            pointer(p),
+                            "{}".format(node.nodeId).encode('ascii'),
+                            0)
+
     def drawPosition(self, node):
         color = vector3f(*node.c_vec)
         vis.setColor(pointer(self.window), pointer(color))
@@ -103,4 +110,10 @@ class Window(object):
                               pointer(self.window.geometry),
                               pointer(position),
                               node.range)
+
+        vis.drawLogicalText(self.window.renderer,
+                            pointer(self.window.geometry),
+                            pointer(position),
+                            "{}".format(node.nodeId).encode('ascii'),
+                            0)
 
