@@ -93,7 +93,8 @@ class Window(object):
         vis.drawLogicalText(self.window.renderer,
                             pointer(self.window.geometry),
                             pointer(p),
-                            "{}".format(node.nodeId).encode('ascii'),
+                            "{}@{}".format(node.nodeId, node.get_cluster())
+                                   .encode('ascii'),
                             0)
 
     def drawPosition(self, node):

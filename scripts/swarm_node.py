@@ -60,7 +60,7 @@ class SwarmNode:
         return c_void_p.in_dll(self.libmicrocontroller, 'dataPointer')
 
     def get_cluster(self):
-        return c_int.in_dll(self.libmicrocontroller, 'clusterID')
+        return c_int.in_dll(self.libmicrocontroller, 'clusterID').value
 
     def get_belief(self):
         return POINTER(vector3f).in_dll(self.libmicrocontroller, 'beliefPointer')[0]
