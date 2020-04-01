@@ -36,5 +36,9 @@
 // Minimum confidence needed to join a cluster
 #define CLUSTER_JOIN_CONFIDENCE 0.80
 
+// Number of neighbors at which a cluster master becomes just another cluster
+// node
+#define CLUSTER_BOOTSTRAPPING_COUNT 3
+
 #endif
 

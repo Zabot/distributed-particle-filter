@@ -77,7 +77,7 @@ void loop() {
 
       // If we recieve data from a higher prioirty cluster, use it
       if (m.payload.localization.clusterID != clusterID
-          && m.payload.localization.confidence > CLUSTER_JOIN_CONFIDENCE) {
+          && m.payload.localization.confidence >= CLUSTER_JOIN_CONFIDENCE) {
         // Dump old neighbors, they are in a different cluster now
         data.count = 0;
 
@@ -133,8 +133,8 @@ void loop() {
     updateParticleFilter(&pf, &data);
 
   // Nodes that are the master of a cluster are always right
-  if (nodeID == clusterID)
-    pf.confidence = 1;
+  if (nodeID == clusterID && data.count > CLUSTER_BOOTSTRAPPING_COUNT)
+    pf.confidence = CLUSTER_JOIN_CONFIDENCE;
 
   // Display localization summary
   NODE_PRINT("Localization Belief: [%.2f; %.2f; %.2f](%d) {",
