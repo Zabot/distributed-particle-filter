@@ -48,3 +48,6 @@ target_link_libraries(microcontroller simulation particle_filter triliteration u
 file(GLOB SIMULATOR_SOURCES "scripts/*.py")
 file(COPY ${SIMULATOR_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+file(GLOB RESOURCES "res/*")
+file(COPY ${RESOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
