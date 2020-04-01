@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#include "utils/random.h"
+#include "probability/random.h"
 
 // Initalization functions
 void zero(vector3f *p) {
@@ -13,9 +13,9 @@ void zero(vector3f *p) {
 }
 
 void randomize(vector3f *p, float min, float max) {
-  p->x = randomf(min, max);
-  p->y = randomf(min, max);
-  p->z = randomf(min, max);
+  p->x = uniform(min, max);
+  p->y = uniform(min, max);
+  p->z = uniform(min, max);
 }
 
 void assign(vector3f *v, const vector3f *u) {

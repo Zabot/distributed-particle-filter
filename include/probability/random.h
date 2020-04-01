@@ -1,5 +1,5 @@
-#ifndef UTILS_RANDOM_H
-#define UTILS_RANDOM_H
+#ifndef RANDOM_H
+#define RANDOM_H
 
 /**
  * @brief Generates a uniform random float between min and max
@@ -8,7 +8,7 @@
  * @param res The number of possible values between each integer step
  * @return A random float
  */
-float randomf(float min, float max);
+float uniform(float min, float max);
 
 #endif
 

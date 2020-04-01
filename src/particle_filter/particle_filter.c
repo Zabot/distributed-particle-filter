@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-#include "utils/random.h"
+#include "probability/random.h"
 #include "vector/vector3f.h"
 
 
@@ -38,7 +38,7 @@ void multinomialResample(vector3f* samples,
   // Take new samples
   for (int i = selectedSamples; i < outputCount; i++)
   {
-    float x = randomf(0, threshold[count - 1]);
+    float x = uniform(0, threshold[count - 1]);
 
     int t = 0;
     while (x >= threshold[t])
