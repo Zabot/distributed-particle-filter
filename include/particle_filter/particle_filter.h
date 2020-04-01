@@ -1,9 +1,8 @@
 #ifndef PARTICLE_FILTER_H
 #define PARTICLE_FILTER_H
 
+#include "config/config.h"
 #include "vector/vector3f.h"
-
-#define MAX_SAMPLES 4000
 
 /**
  * @brief A function that returns the probability of a sample being the real

@@ -4,10 +4,6 @@
 #include "triliteration/triliteration_data.h"
 #include "vector/vector3f.h"
 
-#define RANGE_SENSOR_DEVIATION 0.1
-#define RANGE_SENSOR_TOLERANCE 0.15
-
-
 /**
  * @brief What is the probability of measuring a distance to an anchor given
  * the actual position of both

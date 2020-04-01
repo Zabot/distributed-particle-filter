@@ -1,5 +1,6 @@
 #include "triliteration/triliteration.h"
 
+#include "config/config.h"
 #include "probability/ztable.h"
 
 
@@ -29,9 +30,9 @@ float triliterationProbability(const vector3f *proposedPosition,
                            &data->anchors[i].anchor,
                            RANGE_SENSOR_TOLERANCE);
 
-    // p Probability of measuring the observed distance (10% chance of measuring
+    // p Probability of measuring the observed distance (chance of measuring
     // any point if the localization is wrong)
-    p = pAnchor * p + (1 - pAnchor) * 0.1;
+    p = pAnchor * p + (1 - pAnchor) * MEASUREMENT_P_IF_FAIL;
 
     pTotal *= p;
   }

@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "config/config.h"
+
 #include "particle_filter/particle_filter.h"
 #include "particle_filter/samples.h"
 
@@ -14,7 +16,6 @@ const TriliterationData* dataPointer = &data;
 const ParticleFilter* pfPointer = &pf;
 const vector3f* beliefPointer = &pf.belief;
 
-const int UNPROMPTED_INTERVAL = 100;
 int timeSinceLastBroadcast;
 
 int clusterID = 0;
@@ -22,17 +23,17 @@ int clusterID = 0;
 void initalizeTriliterationParticleFilter(ParticleFilter* filter,
                                           const TriliterationData* data) {
   if (data->count == 0) {
-    initalizeParticleFilter(&pf, 3000);
+    initalizeParticleFilter(&pf, INITAL_FILTER_SIZE);
 
   } else {
     filter->sampleCount = 0;
-    vector3f seedPoints[256];
+    vector3f seedPoints[FILTER_SEED_SIZE];
     for (int i = 0; i < data->count; i++) {
       sampleUniformCircle(seedPoints,
-                          256,
+                          FILTER_SEED_SIZE,
                           &data->anchors[i].anchor.position,
                           data->anchors[i].anchor.distance);
-      seedParticleFilter(filter, seedPoints, 256);
+      seedParticleFilter(filter, seedPoints, FILTER_SEED_SIZE);
 
       updateParticleFilter(filter, data);
     }
@@ -96,12 +97,12 @@ void loop() {
 
         if (!containsTriliterationAnchor(&data, m.sender)) {
           // If this neighbor is new, seed the particle filter accordingly
-          vector3f seedPoints[256];
+          vector3f seedPoints[FILTER_SEED_SIZE];
           sampleUniformCircle(seedPoints,
-                              256,
+                              FILTER_SEED_SIZE,
                               &m.payload.localization.location,
                               m.range);
-          seedParticleFilter(&pf, seedPoints, 256);
+          seedParticleFilter(&pf, seedPoints, FILTER_SEED_SIZE);
 
           // Add the new anchor to the triliteration data
           addTriliterationAnchor(&data, m.sender, &anchor);

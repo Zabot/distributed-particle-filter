@@ -1,10 +1,9 @@
 #ifndef TRILITERRATION_TRILITERATION_DATA_H
 #define TRILITERRATION_TRILITERATION_DATA_H
 
+#include "config/config.h"
 #include "utils/circular_buffer.h"
 #include "vector/vector3f.h"
-
-#define MAX_TRILITERATION_ANCHORS 10
 
 typedef struct TriliterationAnchor {
   vector3f position;

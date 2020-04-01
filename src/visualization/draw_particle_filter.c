@@ -1,5 +1,7 @@
 #include "visualization/draw_particle_filter.h"
 
+#include "config/config.h"
+
 #include "visualization/logical_drawing.h"
 
 
@@ -23,7 +25,7 @@ void drawParticleFilter(SDL_Renderer* renderer,
                          color->y * 255,
                          color->z * 255,
                          SDL_ALPHA_OPAQUE);
-  drawLogicalCircle(renderer, geometry, &pf->belief, 0.1);
+  drawLogicalCircle(renderer, geometry, &pf->belief, FILTER_CONFIDENCE_TOLERANCE);
 
   char id[4];
   sprintf(id, "%0.2f", pf->confidence);

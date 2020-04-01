@@ -80,7 +80,8 @@ void evaluateProbabilities(ParticleFilter *filter, const void* data) {
   for (int i = 0; i < filter->sampleCount; i++)
   {
     pTot += filter->probabilities[i];
-    if (distance(filter->samples + i, &filter->belief) < 0.10)
+    if (distance(filter->samples + i, &filter->belief)
+        < FILTER_CONFIDENCE_TOLERANCE)
       p += filter->probabilities[i];
   }
   filter->confidence = pTot == 0.0 ? 0.0 : p / pTot;
