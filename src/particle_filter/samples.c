@@ -16,3 +16,14 @@ void sampleUniformCircle(vector3f* points,
   }
 }
 
+void sampleUniformSphere(vector3f* points,
+                         int count,
+                         const vector3f* center,
+                         float r) {
+  for (int i = 0; i < count; i++) {
+    randomUnit(points + i);
+    scale(points + i, r);
+    add(points + i, center);
+  }
+}
+
