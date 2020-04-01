@@ -97,7 +97,7 @@ class Window(object):
                                    .encode('ascii'),
                             0)
 
-    def drawPosition(self, node):
+    def drawPosition(self, node, ranges = False):
         color = vector3f(*node.c_vec)
         vis.setColor(pointer(self.window), pointer(color))
 
@@ -107,10 +107,11 @@ class Window(object):
                               pointer(position),
                               0.05)
 
-        vis.drawLogicalCircle(self.window.renderer,
-                              pointer(self.window.geometry),
-                              pointer(position),
-                              node.range)
+        if ranges:
+            vis.drawLogicalCircle(self.window.renderer,
+                                  pointer(self.window.geometry),
+                                  pointer(position),
+                                  node.range)
 
         vis.drawLogicalText(self.window.renderer,
                             pointer(self.window.geometry),

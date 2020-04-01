@@ -88,7 +88,8 @@ with Window("Composite", 1000, 1000, 30) as composite:
             # Draw the position of a single node
             if command == 'p':
                 for n in selected:
-                    composite.drawPosition(n)
+                    composite.drawPosition(n,
+                            int(cargs[1]) if cargs[1:] else False)
 
             # Render a single node, or render all nodes
             if command == 'r':
