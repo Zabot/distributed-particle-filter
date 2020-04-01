@@ -94,6 +94,7 @@ void loop() {
         anchor.position = m.payload.localization.location;
         anchor.confidence = m.payload.localization.confidence;
 
+        newData = 1;
         if (!containsTriliterationAnchor(&data, m.sender)) {
           // If this neighbor is new, seed the particle filter accordingly
           vector3f seedPoints[FILTER_SEED_SIZE];
@@ -108,14 +109,6 @@ void loop() {
         } else {
           // If we already know about it, just update the position
           updateTriliterationAnchor(&data, m.sender, &anchor);
-        }
-        newData = 1;
-
-      } else {
-        if (containsTriliterationAnchor(&data, m.sender)) {
-          // Remove neighbor from triliteration data
-          removeTriliterationAnchor(&data, m.sender);
-          newData = 1;
         }
       }
     }
