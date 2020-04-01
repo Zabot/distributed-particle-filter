@@ -62,7 +62,15 @@ with Window("Composite", 1000, 1000, 30) as composite:
                 continue
 
             command, *cargs = i
-            selected = nodes[int(cargs[0]) - 1] if len(cargs) > 0 else None
+
+            if len(cargs) > 0:
+                if cargs[0].startswith("@"):
+                    cluster = int(cargs[0][1:])
+                    selected = [n for n in nodes if n.get_cluster() == cluster]
+                else:
+                    selected = [nodes[int(cargs[0]) - 1]]
+            else:
+                selected = nodes
 
             # Clear the window
             if command == 'c':
@@ -71,27 +79,34 @@ with Window("Composite", 1000, 1000, 30) as composite:
 
             # Draw the position of a single node
             if command == 'p':
-                if selected:
-                    composite.drawPosition(selected)
-                else:
-                    for n in nodes:
-                        composite.drawPosition(n)
+                for n in selected:
+                    composite.drawPosition(n)
 
             # Render a single node, or render all nodes
             if command == 'r':
-                if selected:
-                    composite.drawNode(selected, True)
-                else:
-                    for n in nodes:
-                        composite.drawNode(n, args.triliteration)
+                for n in selected:
+                    composite.drawNode(n, int(cargs[1]) if cargs[1:] else args.triliteration)
 
             # Update a specific node, or update the next node in the filter
             if command == 'n':
-                if sim.step(selected):
-                    composite.clear()
-                    composite.drawAxes()
+                if selected is nodes:
+                    updated = sim.step(None)
 
-                composite.drawNode(n, args.triliteration)
+                    if updated == nodes[0]:
+                        composite.clear()
+                        composite.drawAxes()
+
+                    composite.drawNode(updated, args.triliteration)
+                else:
+                    for n in selected:
+                        updated = sim.step(n)
+
+                        if updated == nodes[0]:
+                            composite.clear()
+                            composite.drawAxes()
+
+                        composite.drawNode(updated, args.triliteration)
+
             if command == 's':
                 dump("saved.yaml", nodes)
 
