@@ -10,5 +10,13 @@
  */
 float uniform(float min, float max);
 
+/**
+ * @brief Generates a random float following a standard normal distribution.
+ *
+ * Estimates the gaussian using the fact that the sum of a series of
+ * uniformly distributed numbers is normally distributed
+ */
+float gaussian();
+
 #endif
 
