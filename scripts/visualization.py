@@ -1,4 +1,4 @@
-from ctypes import cdll, c_void_p, POINTER, pointer, c_float
+from ctypes import cdll, c_void_p, POINTER, pointer, c_float, c_char_p, c_int
 
 from library_types import vector3f, LogicalScreenGeometry, VisualizationWindow
 
@@ -33,6 +33,14 @@ vis.drawLogicalCircle.argtypes = [
 vis.setColor.argtypes = [
         c_void_p,
         POINTER(vector3f),
+    ]
+
+vis.drawLogicalText.argtypes = [
+        c_void_p,
+        POINTER(LogicalScreenGeometry),
+        POINTER(vector3f),
+        c_char_p,
+        c_int
     ]
 
 class Window(object):
