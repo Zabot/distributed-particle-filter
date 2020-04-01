@@ -5,7 +5,7 @@
 #define LOCALIZATION_TOLERANCE 0.25
 
 // Standard deviation of range sensors
-#define RANGE_SENSOR_DEVIATION 0.001
+#define RANGE_SENSOR_DEVIATION 0.1
 
 // Particle filter confidence is the ratio of samples in within tolerance of
 // the belief to total samples
@@ -25,13 +25,13 @@
 #define UNPROMPTED_INTERVAL 100
 
 // Inital size for microcontroller filter
-#define INITAL_FILTER_SIZE 3000
+#define INITAL_FILTER_SIZE 1000
 
 // Number of samples to seed the filter with when encountering a new node
-#define FILTER_SEED_SIZE 512
+#define FILTER_SEED_SIZE 128
 
 // Maximum number of neighbors
-#define MAX_TRILITERATION_ANCHORS 30
+#define MAX_TRILITERATION_ANCHORS 50
 
 // Minimum confidence needed to join a cluster
 #define CLUSTER_JOIN_CONFIDENCE 0.80
