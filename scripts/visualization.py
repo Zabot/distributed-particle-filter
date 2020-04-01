@@ -1,4 +1,4 @@
-from ctypes import cdll, c_void_p, POINTER, pointer
+from ctypes import cdll, c_void_p, POINTER, pointer, c_float
 
 from library_types import vector3f, LogicalScreenGeometry, VisualizationWindow
 
@@ -21,6 +21,18 @@ vis.drawTriliterationData.argtypes = [
 vis.drawAxes.argtypes = [
         c_void_p,
         POINTER(LogicalScreenGeometry)
+    ]
+
+vis.drawLogicalCircle.argtypes = [
+        c_void_p,
+        POINTER(LogicalScreenGeometry),
+        POINTER(vector3f),
+        c_float,
+    ]
+
+vis.setColor.argtypes = [
+        c_void_p,
+        POINTER(vector3f),
     ]
 
 class Window(object):
@@ -68,4 +80,19 @@ class Window(object):
                                       pointer(self.window.geometry),
                                       data_pointer,
                                       pointer(color))
+
+    def drawPosition(self, node):
+        color = vector3f(*node.c_vec)
+        vis.setColor(pointer(self.window), pointer(color))
+
+        position = vector3f(*node.position)
+        vis.drawLogicalCircle(self.window.renderer,
+                              pointer(self.window.geometry),
+                              pointer(position),
+                              0.05)
+
+        vis.drawLogicalCircle(self.window.renderer,
+                              pointer(self.window.geometry),
+                              pointer(position),
+                              node.range)
 
