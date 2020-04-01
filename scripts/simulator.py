@@ -56,6 +56,8 @@ sim = Simulation(nodes)
 with Window("Composite", 1000, 1000, 30) as composite:
     try:
         while True:
+            print("Stats: {}".format(sim.stats()))
+
             i = input("?>").split(' ')
 
             # No command was given, advance the simulation
@@ -91,8 +93,8 @@ with Window("Composite", 1000, 1000, 30) as composite:
                     composite.drawPosition(n,
                             int(cargs[1]) if cargs[1:] else False)
 
-            # Render a single node, or render all nodes
-            if command == 'r':
+            # Display a single node, or display all nodes
+            if command == 'd':
                 for n in selected:
                     composite.drawNode(n, int(cargs[1]) if cargs[1:] else args.triliteration)
 
@@ -118,6 +120,16 @@ with Window("Composite", 1000, 1000, 30) as composite:
 
             if command == 's':
                 dump("saved.yaml", nodes)
+
+            if command == 'r':
+                iterations = sim.run_to_convergance()
+
+                composite.clear()
+                composite.drawAxes()
+                for n in nodes:
+                    composite.drawNode(n, int(cargs[1]) if cargs[1:] else args.triliteration)
+
+                print("Converged in {} stats: {}".format(iterations, sim.stats()))
 
             composite.render()
 

@@ -1,5 +1,7 @@
 import random
 
+import numpy
+
 class Simulation:
     def __init__(self, nodes):
         self.nodes = nodes
@@ -27,3 +29,19 @@ class Simulation:
 
         return n, False
 
+    def stats(self):
+        errors = [n.get_error() ** 2 for n in self.nodes]
+        confidences = [n.get_confidence() for n in self.nodes]
+        return numpy.average(errors), numpy.average(confidences)
+
+    def run_to_convergance(self):
+        iteration = 0
+
+        while numpy.average([n.get_confidence() for n in self.nodes]) < 0.95:
+            self.advance()
+            iteration += 1
+
+            if iteration > 100:
+                return iteration
+
+        return iteration

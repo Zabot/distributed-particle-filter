@@ -13,9 +13,11 @@
 TriliterationData data;
 ParticleFilter pf;
 
+// Used to export data to simulator
 const TriliterationData* dataPointer = &data;
 const ParticleFilter* pfPointer = &pf;
 const vector3f* beliefPointer = &pf.belief;
+const float* confidencePointer = &pf.confidence;
 
 int timeSinceLastBroadcast;
 

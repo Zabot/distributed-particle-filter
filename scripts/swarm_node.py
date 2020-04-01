@@ -1,7 +1,7 @@
 import numpy
 import shutil
 
-from ctypes import cdll, c_void_p, POINTER, c_int, pointer
+from ctypes import cdll, c_void_p, POINTER, c_int, pointer, c_float
 
 from library_types import Message, vector3f
 
@@ -77,4 +77,13 @@ class SwarmNode:
 
     def get_belief(self):
         return POINTER(vector3f).in_dll(self.libmicrocontroller, 'beliefPointer')[0]
+
+    def get_confidence(self):
+        return POINTER(c_float).in_dll(self.libmicrocontroller, 'confidencePointer')[0]
+
+    def get_error(self):
+        belief = self.get_belief()
+        belief = numpy.array([belief.x, belief.y, belief.z])
+
+        return numpy.linalg.norm(belief - self.position)
 
