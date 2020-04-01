@@ -63,7 +63,6 @@ void init() {
   timeSinceLastBroadcast = UNPROMPTED_INTERVAL;
 }
 
-float confidence = 0;
 
 void loop() {
   const int nodeID = getID();
@@ -139,28 +138,19 @@ void loop() {
   if (newData)
     updateParticleFilter(&pf, &data);
 
-  // Calculate the total confidence of our position estimate. The probability
-  // of all of our neighbors being correct, times the confidence of our own
-  // estimate
-  confidence = 1;
-  for (int i = 0; i < data.count; i++)
-    confidence *= data.anchors[i].anchor.confidence;
-  confidence *= pf.confidence;
-  confidence = pf.confidence;
-
   // Nodes that are the master of a cluster are always right
   if (nodeID == clusterID)
-    confidence = 1;
+    pf.confidence = 1;
 
   // Display localization summary
-  NODE_PRINT("Localization Belief: [%2.f; %2.f; %2.f](%d) {",
+  NODE_PRINT("Localization Belief: [%.2f; %.2f; %.2f](%d) {",
              pf.belief.x,
              pf.belief.y,
              pf.belief.z,
              clusterID);
   for (int i = 0; i < data.count; i++)
     printf("%d:%f ", data.anchors[i].key, data.anchors[i].anchor.confidence);
-  printf("pf:%f} C = %.1f%%\n", pf.confidence, confidence * 100);
+  printf("} C = %.1f%%\n", pf.confidence * 100);
 
   // If we had an update to the filter, or haven't broadcast in a while,
   // broadcast our position and confidence
@@ -168,7 +158,7 @@ void loop() {
     timeSinceLastBroadcast = 0;
     m.type = LOCALIZATION_MSG;
 
-    m.payload.localization.confidence = confidence;
+    m.payload.localization.confidence = pf.confidence;
     m.payload.localization.location = pf.belief;
     m.payload.localization.clusterID = clusterID;
     broadcastMessage(&m);
