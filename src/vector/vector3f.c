@@ -27,6 +27,16 @@ void randomUnit(vector3f *v) {
   scale(v, 1/d);
 }
 
+void random2dUnit(vector3f *v) {
+  v->x = gaussian();
+  v->y = gaussian();
+  v->z = 0;
+
+  float d = norm(v);
+  scale(v, 1/d);
+
+}
+
 void assign(vector3f *v, const vector3f *u) {
   v->x = u->x;
   v->y = u->y;

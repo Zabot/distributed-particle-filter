@@ -30,6 +30,12 @@ void randomize(vector3f *v, float min, float max);
 void randomUnit(vector3f *v);
 
 /**
+ * @brief Generates a uniformly distributed random 2d unit vector.
+ * @param v The generated vector. Z will be zero
+ */
+void random2dUnit(vector3f *v);
+
+/**
  * @brief Initalizes all components of a vector using corresponding components
  * in another vector.
  * @param target The vector to update

@@ -94,8 +94,9 @@ void updateParticleFilter(ParticleFilter *filter, const void* data) {
   // estimated movement)
   vector3f disturbance;
   for (int i = 0; i < filter->sampleCount; i++) {
-    randomize(&disturbance, -1, 1);
-    disturbance.z = 0;
+    float mag = uniform(0, 0.1);
+    random2dUnit(&disturbance);
+    scale(&disturbance, mag);
     add(filter->samples + i, &disturbance);
   }
 
