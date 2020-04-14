@@ -1,6 +1,13 @@
 from visualization import Window
 from nodefile import dump
 
+# Commands:
+# c -- Clear the visualization window
+# p <node> <show_range> -- Draw the real position and comm range of a node
+# r <node> <show_trilat> -- Draw the particle filter and neighbors of a node
+# n <node> -- Update a node and render it
+# s -- Save the simulation to saved.yaml
+# g -- run the simulation to convergence
 def run(sim, name = "Composite"):
     with Window(name, 1000, 1000, 30) as composite:
         try:
@@ -43,25 +50,27 @@ def run(sim, name = "Composite"):
                                 int(cargs[1]) if cargs[1:] else False)
 
                 # Display a single node, or display all nodes
-                if command == 'd':
+                if command == 'r':
                     for n in selected:
                         composite.drawNode(n, int(cargs[1]) if cargs[1:] else True)
 
                 # Update a specific node, or update the next node in the filter
                 if command == 'n':
+                    # If no node was selected, tell the simulation to step the
+                    # next node in the queue
                     if selected is sim.nodes:
-                        updated = sim.step(None)
+                        updated, new_step = sim.step()
 
-                        if updated == sim.nodes[0]:
+                        if new_step:
                             composite.clear()
                             composite.drawAxes()
 
                         composite.drawNode(updated, False)
                     else:
                         for n in selected:
-                            updated = sim.step(n)
+                            updated, new_step = sim.step(n)
 
-                            if updated == sim.nodes[0]:
+                            if new_step:
                                 composite.clear()
                                 composite.drawAxes()
 
@@ -70,7 +79,7 @@ def run(sim, name = "Composite"):
                 if command == 's':
                     dump("saved.yaml", sim.nodes)
 
-                if command == 'r':
+                if command == 'g':
                     iterations = sim.run_to_convergance()
 
                     composite.clear()

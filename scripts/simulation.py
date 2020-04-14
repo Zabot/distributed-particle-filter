@@ -13,6 +13,12 @@ class Simulation:
             pass
 
     def step(self, n = None):
+        # If there are no more pending nodes, start a new step
+        new_step = False
+        if not self.pending:
+            self.pending = random.sample(self.nodes, len(self.nodes))
+            new_step = True
+
         if n is None:
             n = self.pending[0]
 
@@ -22,12 +28,7 @@ class Simulation:
         else:
             raise ValueError("Node cannot be stepped")
 
-        # If there are no more pending nodes, reset
-        if not self.pending:
-            self.pending = random.sample(self.nodes, len(self.nodes))
-            return n, True
-
-        return n, False
+        return n, new_step
 
     def stats(self):
         errors = [n.get_error() ** 2 for n in self.nodes]
