@@ -18,7 +18,9 @@ void multinomialResample(vector3f* samples,
 
   int selectedSamples = 0;
 
-  // Determine region for a sample
+  // threshold is an array of increasing numbers, representing the edges of
+  // buckets. e.g. {2.3, 4.8, 9.2, ...} any number less then 2.3 would fall
+  // in bucket 0, less than 4.8 bucket 1 and so on.
   float* threshold = malloc(count * sizeof(float));
   for (int i = 0; i < count; i++)
   {
@@ -40,8 +42,9 @@ void multinomialResample(vector3f* samples,
   {
     float x = uniform(0, threshold[count - 1]);
 
+    // Find the bucket that contains x
     int t = 0;
-    while (x >= threshold[t])
+    while (x < threshold[t])
       t++;
 
     outputSamples[i] = samples[t];
