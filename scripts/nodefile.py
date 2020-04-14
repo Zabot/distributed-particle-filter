@@ -12,6 +12,10 @@ def parse(f):
 
         n = SwarmNode(1 + len(nodes), data['range'])
         n.position = position
+        try:
+            n.position_interval = p['position_interval']
+        except KeyError:
+            n.position_interval = 0
         nodes.append(n)
 
     return nodes
@@ -22,7 +26,9 @@ def dump(f, nodes):
         data['nodes'].append({
             'x': float(n.position[0]),
             'y': float(n.position[1]),
-            'z': float(n.position[2])})
+            'z': float(n.position[2]),
+            'position_interval': n.position_interval
+        })
 
     with open(f, 'w') as outfile:
         s = yaml.dump(data, outfile)
