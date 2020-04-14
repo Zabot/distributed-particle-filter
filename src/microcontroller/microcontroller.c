@@ -138,7 +138,7 @@ void loop() {
     updateParticleFilter(&pf, &data);
 
   // Nodes that are the master of a cluster are always right
-  if (nodeID == clusterID && data.count > CLUSTER_BOOTSTRAPPING_COUNT)
+  if (nodeID == clusterID && data.count < CLUSTER_BOOTSTRAPPING_COUNT)
     pf.confidence = CLUSTER_JOIN_CONFIDENCE;
 
   vector3f sensedPosition;
