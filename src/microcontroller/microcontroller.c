@@ -45,7 +45,6 @@ void initalizeTriliterationParticleFilter(ParticleFilter* filter,
 
 void init() {
   const int nodeID = getID();
-  NODE_PRINT("Initalized node %d\n", nodeID);
 
   // Allocate space for triliteration data
   data.count = 0;
@@ -147,16 +146,6 @@ void loop() {
     pf.confidence = 1;
     pf.belief = sensedPosition;
   }
-
-  // Display localization summary
-  NODE_PRINT("Localization Belief: [%.2f; %.2f; %.2f](%d) {",
-             pf.belief.x,
-             pf.belief.y,
-             pf.belief.z,
-             clusterID);
-  for (int i = 0; i < data.count; i++)
-    printf("%d:%f ", data.anchors[i].key, data.anchors[i].anchor.confidence);
-  printf("} C = %.1f%%\n", pf.confidence * 100);
 
   // If we had an update to the filter, or haven't broadcast in a while,
   // broadcast our position and confidence
