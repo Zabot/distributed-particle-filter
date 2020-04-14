@@ -4,10 +4,10 @@ import random
 from argparse import ArgumentParser
 from argparse import FileType
 
-from nodefile import parse, dump
+from nodefile import parse
 from simulation import Simulation
+from simulator_window import run
 from swarm_node import SwarmNode
-from visualization import Window
 
 # Argument parsing
 parser = ArgumentParser()
@@ -35,6 +35,10 @@ parser.add_argument("-p",
                     default=0,
                     help="number of randomly selected position aware nodes",
                     type=int)
+parser.add_argument("-g",
+                    dest="convergence",
+                    action="store_true",
+                    help="Run to convergance without displaying")
 args = parser.parse_args()
 
 # Load a nodefile from arguments
@@ -53,86 +57,11 @@ else:
 
 # Run the simulation
 sim = Simulation(nodes)
-with Window("Composite", 1000, 1000, 30) as composite:
-    try:
-        while True:
-            print("Stats: {}".format(sim.stats()))
 
-            i = input("?>").split(' ')
+if args.convergence:
+    iterations = sim.run_to_convergance()
+    print("{}, {}, {}".format(iterations, *sim.stats()))
 
-            # No command was given, advance the simulation
-            if len(i) == 1 and i[0] == '':
-                sim.advance()
-
-                composite.clear()
-                composite.drawAxes()
-                for n in nodes:
-                    composite.drawNode(n)
-                composite.render()
-                continue
-
-            command, *cargs = i
-
-            if len(cargs) > 0:
-                if cargs[0].startswith("@"):
-                    cluster = int(cargs[0][1:])
-                    selected = [n for n in nodes if n.get_cluster() == cluster]
-                else:
-                    selected = [nodes[int(cargs[0]) - 1]]
-            else:
-                selected = nodes
-
-            # Clear the window
-            if command == 'c':
-                composite.clear()
-                composite.drawAxes()
-
-            # Draw the position of a single node
-            if command == 'p':
-                for n in selected:
-                    composite.drawPosition(n,
-                            int(cargs[1]) if cargs[1:] else False)
-
-            # Display a single node, or display all nodes
-            if command == 'd':
-                for n in selected:
-                    composite.drawNode(n, int(cargs[1]) if cargs[1:] else args.triliteration)
-
-            # Update a specific node, or update the next node in the filter
-            if command == 'n':
-                if selected is nodes:
-                    updated = sim.step(None)
-
-                    if updated == nodes[0]:
-                        composite.clear()
-                        composite.drawAxes()
-
-                    composite.drawNode(updated, args.triliteration)
-                else:
-                    for n in selected:
-                        updated = sim.step(n)
-
-                        if updated == nodes[0]:
-                            composite.clear()
-                            composite.drawAxes()
-
-                        composite.drawNode(updated, args.triliteration)
-
-            if command == 's':
-                dump("saved.yaml", nodes)
-
-            if command == 'r':
-                iterations = sim.run_to_convergance()
-
-                composite.clear()
-                composite.drawAxes()
-                for n in nodes:
-                    composite.drawNode(n, int(cargs[1]) if cargs[1:] else args.triliteration)
-
-                print("Converged in {} stats: {}".format(iterations, sim.stats()))
-
-            composite.render()
-
-    except KeyboardInterrupt:
-        print("Exiting...")
+else:
+    run(sim)
 
