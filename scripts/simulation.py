@@ -34,10 +34,10 @@ class Simulation:
         confidences = [n.get_confidence() for n in self.nodes]
         return numpy.average(errors), numpy.average(confidences)
 
-    def run_to_convergance(self):
+    def run_to_convergance(self, confidence = 0.9):
         iteration = 0
 
-        while numpy.average([n.get_confidence() for n in self.nodes]) < 0.95:
+        while numpy.average([n.get_confidence() for n in self.nodes]) < confidence:
             self.advance()
             iteration += 1
 
