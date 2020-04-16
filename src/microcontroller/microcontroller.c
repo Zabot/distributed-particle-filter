@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "config/config.h"
 
@@ -37,14 +38,16 @@ void initalizeTriliterationParticleFilter(ParticleFilter* filter,
                           &data->anchors[i].anchor.position,
                           data->anchors[i].anchor.distance);
       seedParticleFilter(filter, seedPoints, FILTER_SEED_SIZE);
-
-      updateParticleFilter(filter, data);
+      /*updateParticleFilter(filter, data);*/
     }
   }
 }
 
 void init() {
   const int nodeID = getID();
+
+  // Seed randomness for determinism
+  srand(0);
 
   // Allocate space for triliteration data
   data.count = 0;
