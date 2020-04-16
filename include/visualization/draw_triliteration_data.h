@@ -18,5 +18,8 @@ void drawTriliterationData(SDL_Renderer* renderer,
                            const TriliterationData* data,
                            const vector3f* color);
 
+void drawTriliterationStateSpace(SDL_Renderer* renderer,
+                                 const LogicalScreenGeometry* geometry,
+                                 const TriliterationData* data);
 #endif
 

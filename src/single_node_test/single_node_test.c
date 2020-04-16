@@ -47,6 +47,7 @@ int main(int argc, char *argv[]) {
   float confidence = 1;
   int autostep = 0;
   float placeRadius = 1;
+  int heatmap = 0;
 
   if (initalizeVisualizationWindow(&window, "Single Node Visualization") == 0) {
     int running = 1;
@@ -120,6 +121,9 @@ int main(int argc, char *argv[]) {
           else if (event.key.keysym.sym == SDLK_PERIOD)
             confidence += 0.05;
 
+          else if (event.key.keysym.sym == SDLK_p)
+            heatmap = !heatmap;
+
           // Quit
           else if (event.key.keysym.sym == SDLK_q)
             running = 0;
@@ -162,6 +166,11 @@ int main(int argc, char *argv[]) {
                       &logicalMouse,
                       buffer,
                       1);
+
+      if (heatmap)
+        drawTriliterationStateSpace(window.renderer,
+                              &window.geometry,
+                              &data);
 
       // Display the window
       renderVisualizationWindow(&window);
