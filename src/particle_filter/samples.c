@@ -12,6 +12,7 @@ void sampleUniformCircle(vector3f* points,
   for (int i = 0; i < count; i++) {
     points[i].x = center->x + r * cos(theta);
     points[i].y = center->y + r * sin(theta);
+    points[i].z = 0;
     theta += dtheta;
   }
 }
