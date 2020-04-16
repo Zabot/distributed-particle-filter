@@ -97,27 +97,30 @@ void loop() {
       }
 
       if (m.payload.localization.clusterID == clusterID) {
+        newData = 1;
+
         // Update triliteration data with new range to neighbor
         TriliterationAnchor anchor;
         anchor.distance = m.range;
         anchor.position = m.payload.localization.location;
         anchor.confidence = m.payload.localization.confidence;
 
-        newData = 1;
-        if (!containsTriliterationAnchor(&data, m.sender)) {
-          // If this neighbor is new, seed the particle filter accordingly
+        TriliterationAnchor* existing = getTriliterationAnchor(&data, m.sender);
+        if (existing == NULL)
+          // Add the new anchor to the triliteration data
+          addTriliterationAnchor(&data, m.sender, &anchor);
+
+        else
+          *existing = anchor;
+
+        if (existing == NULL
+            || distance(&anchor.position, &existing->position) > LOCALIZATION_TOLERANCE) {
           vector3f seedPoints[FILTER_SEED_SIZE];
           sampleUniformCircle(seedPoints,
                               FILTER_SEED_SIZE,
                               &m.payload.localization.location,
                               m.range);
           seedParticleFilter(&pf, seedPoints, FILTER_SEED_SIZE);
-
-          // Add the new anchor to the triliteration data
-          addTriliterationAnchor(&data, m.sender, &anchor);
-        } else {
-          // If we already know about it, just update the position
-          updateTriliterationAnchor(&data, m.sender, &anchor);
         }
       }
     }

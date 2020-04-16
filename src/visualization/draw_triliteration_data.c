@@ -17,14 +17,14 @@ void drawTriliterationData(SDL_Renderer* renderer,
 
   for (int i = 0; i < data->count; i++)
   {
-    const TriliterationAnchor *anchor = getTriliterationAnchorIndex(data, i);
+    const TriliterationAnchor *anchor = &data->anchors[i].anchor;
     drawLogicalCircle(renderer,
                       geometry,
                       &anchor->position,
                       anchor->distance);
 
     char id[16];
-    sprintf(id, "%d (%.2f)", data->anchors[i].key, data->anchors[i].anchor.confidence);
+    sprintf(id, "%d (%.2f)", data->anchors[i].key, anchor->confidence);
     drawLogicalText(renderer, geometry, &anchor->position, id, 0);
   }
 }

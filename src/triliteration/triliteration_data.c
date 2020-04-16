@@ -1,5 +1,8 @@
 #include "triliteration/triliteration_data.h"
 
+#include <stddef.h>
+
+
 void initTriliterationData(TriliterationData *data) {
   data->count = 0;
 }
@@ -32,6 +35,14 @@ int containsTriliterationAnchor(const TriliterationData* data, int key) {
   return 0;
 }
 
+TriliterationAnchor* getTriliterationAnchor(const TriliterationData* data, int key) {
+  for (int i = 0; i < data->count; i++)
+    if (data->anchors[i].key == key)
+      return &data->anchors[i].anchor;
+
+  return NULL;
+}
+
 int updateTriliterationAnchor(TriliterationData* data, int key, const TriliterationAnchor* anchor) {
   for (int i = 0; i < data->count; i++)
   {
@@ -44,6 +55,3 @@ int updateTriliterationAnchor(TriliterationData* data, int key, const Triliterat
   return 0;
 }
 
-const TriliterationAnchor *getTriliterationAnchorIndex(const TriliterationData* data, int index) {
-  return &data->anchors[index].anchor;
-}

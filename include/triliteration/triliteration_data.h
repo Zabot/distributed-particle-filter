@@ -36,10 +36,10 @@ void addTriliterationAnchor(TriliterationData* data,
                             const TriliterationAnchor* anchor);
 int removeTriliterationAnchor(TriliterationData* data, int key);
 int containsTriliterationAnchor(const TriliterationData* data, int key);
+TriliterationAnchor* getTriliterationAnchor(const TriliterationData* data, int key);
 int updateTriliterationAnchor(TriliterationData* data,
                               int key,
                               const TriliterationAnchor* anchor);
-const TriliterationAnchor *getTriliterationAnchorIndex(const TriliterationData* data, int index);
 
 #endif
 
