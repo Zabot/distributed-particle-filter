@@ -8,8 +8,8 @@ from nodefile import dump
 # n <node> -- Update a node and render it
 # s -- Save the simulation to saved.yaml
 # g -- run the simulation to convergence
-def run(sim, name = "Composite"):
-    with Window(name, 1000, 1000, 30) as composite:
+def run(sim, view = 30, name = "Composite"):
+    with Window(name, 1000, 1000, view) as composite:
         try:
             while True:
                 print("Stats: {}".format(sim.stats()))

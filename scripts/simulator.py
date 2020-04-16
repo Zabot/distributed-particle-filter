@@ -40,6 +40,11 @@ parser.add_argument("-g",
                     dest="convergence",
                     action="store_true",
                     help="Run to convergance without displaying")
+parser.add_argument("-v",
+                    default=30,
+                    dest="view",
+                    help="View window size",
+                    type=int)
 parser.add_argument("-s",
                     default=0,
                     dest="seed",
@@ -66,7 +71,7 @@ else:
     # Seed PRNG sequence used for assigning node positions
     numpy.random.seed(args.cluster)
     for n in nodes:
-        n.position = numpy.random.uniform(-10, 10, 3)
+        n.position = numpy.random.uniform(-args.view/2, args.view/2, 3)
         n.position[2] = 0
 
     # Seed PRNG used to select which nodes are global position aware
@@ -85,5 +90,5 @@ if args.convergence:
     print("{}, {}, {}".format(iterations, *sim.stats()))
 
 else:
-    run(sim)
+    run(sim, args.view)
 
