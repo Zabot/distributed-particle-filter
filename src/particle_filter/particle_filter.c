@@ -12,7 +12,7 @@ void multinomialResample(vector3f* samples,
                          vector3f* outputSamples,
                          int outputCount) {
   // Calculate cumulative probability distribution
-  float cumulative = 0;
+  double cumulative = 0;
   for (int i = 0; i < count; i++)
     cumulative += probabilities[i];
 
@@ -22,29 +22,29 @@ void multinomialResample(vector3f* samples,
   // buckets. e.g. {2.3, 4.8, 9.2, ...} any number less then 2.3 would fall
   // in bucket 0, less than 4.8 bucket 1 and so on.
   float* threshold = malloc(count * sizeof(float));
+  double sum = 0;
   for (int i = 0; i < count; i++)
   {
-    float normalized = probabilities[i] / cumulative;
-    const float expected = normalized * outputCount;
+    const float normalized = probabilities[i] / cumulative;
 
     // Lower bound on number of samples is expected value
-    int copies = expected;
-    for (int k = 0; k < copies; k++)
+    const float expected = normalized * outputCount;
+    for (int k = 0; k < expected; k++)
       outputSamples[selectedSamples + k] = samples[i];
-    selectedSamples += copies;
+    selectedSamples += expected;
 
-    normalized -= expected - copies;
-    threshold[i] = ((i == 0) ? 0 : threshold[i-1]) + normalized;
+    sum += normalized;
+    threshold[i] = sum;
   }
 
   // Take new samples
   for (int i = selectedSamples; i < outputCount; i++)
   {
-    float x = uniform(0, threshold[count - 1]);
+    float x = uniform(0, 1);
 
     // Find the bucket that contains x
     int t = 0;
-    while (x < threshold[t])
+    while (x > threshold[t])
       t++;
 
     outputSamples[i] = samples[t];
