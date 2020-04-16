@@ -40,5 +40,8 @@
 // node
 #define CLUSTER_BOOTSTRAPPING_COUNT 3
 
+// Maximum amount a sample can move in a single timestep
+#define MAX_DISTURBANCE_MAGNITUDE LOCALIZATION_TOLERANCE
+
 #endif
 
